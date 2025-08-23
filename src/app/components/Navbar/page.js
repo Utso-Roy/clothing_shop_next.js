@@ -1,17 +1,18 @@
-"use client";
 import React from "react";
-import Login from "../loginBtn/page";
 import Links from "../links/page";
-import Link from "next/link";
 import LoginBtn from "../loginBtn/page";
-// import { useSession } from "next-auth/react";
+import LogoutBtn from "../logoutBtn/page";
+import { getServerSession } from "next-auth";
+import { authOption } from "@/app/api/auth/[...nextauth]/route";
 
-export default function Navbar() {
-  // const { data: session } = useSession()
-  // console.log(session)
-  
+export default async  function Navbar() {
+
+  const session = await getServerSession(authOption)
+  console.log(session)
+
   return (
     <div className="navbar bg-gray-100 shadow-sm">
+      {/* Left Side */}
       <div className="navbar-start">
         <div className="dropdown">
           <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
@@ -34,25 +35,52 @@ export default function Navbar() {
             tabIndex={0}
             className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow"
           >
-            <Links></Links>
+            <Links />
           </ul>
         </div>
         <a className="btn btn-ghost text-xl">daisyUI</a>
       </div>
+
+      {/* Center Links */}
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal px-1">
-          {" "}
-          <Links></Links>
+          <Links />
         </ul>
       </div>
+
+      {/* Right Side */}
       <div className="navbar-end">
-        {/* <Link href="/login">
-          <button className="btn">
-            
-            Login
-        </button>
-        </Link> */}
-        <LoginBtn></LoginBtn>
+        {session ? (
+          <div className="dropdown dropdown-end">
+            <div
+              tabIndex={0}
+              role="button"
+              className="btn btn-ghost btn-circle avatar"
+            >
+              <div className="w-12 rounded-full ring-2 ring-offset-2 ring-primary">
+                <img
+                  src="https://img.daisyui.com/images/profile/demo/spiderperson@192.webp"
+                  alt="User Avatar"
+                />
+              </div>
+            </div>
+            <ul
+              tabIndex={0}
+              className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
+            >
+              <li>
+                <span className="font-medium text-gray-700">
+                  {session?.user?.email}
+                </span>
+              </li>
+              <li>
+            {  <LogoutBtn></LogoutBtn>}
+              </li>
+            </ul>
+          </div>
+        ) : (
+          <LoginBtn />
+        )}
       </div>
     </div>
   );
