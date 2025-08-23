@@ -4,14 +4,15 @@ import LoginBtn from "../loginBtn/page";
 import LogoutBtn from "../logoutBtn/page";
 import { getServerSession } from "next-auth";
 import { authOption } from "@/app/api/auth/[...nextauth]/route";
-
+import Image from "next/image";
+import image from '../../../../public/image.png'
 export default async  function Navbar() {
 
   const session = await getServerSession(authOption)
   console.log(session)
 
   return (
-    <div className="navbar bg-gray-100 shadow-sm">
+    <div className="navbar fixed  z-50 top-0 bg-gray-100 shadow-sm">
       {/* Left Side */}
       <div className="navbar-start">
         <div className="dropdown">
@@ -38,7 +39,18 @@ export default async  function Navbar() {
             <Links />
           </ul>
         </div>
-        <a className="btn btn-ghost text-xl">daisyUI</a>
+        <div>
+          
+         <Image
+  src={image}
+  alt="Logo"
+  width={60}
+  height={20} 
+  className="object-contain"
+/>
+
+         </div>
+
       </div>
 
       {/* Center Links */}
