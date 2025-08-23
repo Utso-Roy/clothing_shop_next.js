@@ -1,18 +1,18 @@
 import React from "react";
 import Links from "../links/page";
-import LoginBtn from "../loginBtn/page";
-import LogoutBtn from "../logoutBtn/page";
 import { getServerSession } from "next-auth";
 import { authOption } from "@/app/api/auth/[...nextauth]/route";
 import Image from "next/image";
-import image from '../../../../public/image.png'
-export default async  function Navbar() {
+import image from "../../../../public/image.png";
+import { FaTachometerAlt } from "react-icons/fa";
+import { MdDashboardCustomize } from "react-icons/md";
+import Link from "next/link";
 
-  const session = await getServerSession(authOption)
-  console.log(session)
+export default async function Navbar() {
+  const session = await getServerSession(authOption);
 
   return (
-    <div className="navbar fixed  z-50 top-0 bg-gray-100 shadow-sm">
+    <div className="navbar fixed z-50 top-0 bg-gray-100 shadow-sm">
       {/* Left Side */}
       <div className="navbar-start">
         <div className="dropdown">
@@ -40,17 +40,14 @@ export default async  function Navbar() {
           </ul>
         </div>
         <div>
-          
-         <Image
-  src={image}
-  alt="Logo"
-  width={60}
-  height={20} 
-  className="object-contain"
-/>
-
-         </div>
-
+          <Image
+            src={image}
+            alt="Logo"
+            width={60}
+            height={20}
+            className="object-contain"
+          />
+        </div>
       </div>
 
       {/* Center Links */}
@@ -62,7 +59,7 @@ export default async  function Navbar() {
 
       {/* Right Side */}
       <div className="navbar-end">
-        {session ? (
+        {session && (
           <div className="dropdown dropdown-end">
             <div
               tabIndex={0}
@@ -70,9 +67,14 @@ export default async  function Navbar() {
               className="btn btn-ghost btn-circle avatar"
             >
               <div className="w-12 rounded-full ring-2 ring-offset-2 ring-primary">
-                <img
-                  src="https://img.daisyui.com/images/profile/demo/spiderperson@192.webp"
+                <Image
+                  src={
+                    session.user?.image || "https://i.ibb.co/QFCKhZX1/dog.jpg"
+                  }
+                  width={40}
+                  height={40}
                   alt="User Avatar"
+                  className="rounded-full"
                 />
               </div>
             </div>
@@ -80,18 +82,18 @@ export default async  function Navbar() {
               tabIndex={0}
               className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
             >
-              <li>
-                <span className="font-medium text-gray-700">
-                  {session?.user?.email}
-                </span>
-              </li>
-              <li>
-            {  <LogoutBtn></LogoutBtn>}
+              <li className="px-2 py-1 rounded-md cursor-pointer  ">
+                
+                <Link
+                  href="/dashboard/add-product"
+                  className="font-semibold flex gap-1 text-lg text-gray-700"
+                >
+                  <MdDashboardCustomize className="text-indigo-600" />
+                  Dashboard
+                </Link>
               </li>
             </ul>
           </div>
-        ) : (
-          <LoginBtn />
         )}
       </div>
     </div>
