@@ -1,16 +1,11 @@
 import React from "react";
-import Links from "../links/page";
-import { getServerSession } from "next-auth";
-import { authOption } from "@/app/api/auth/[...nextauth]/route";
 import Image from "next/image";
-import image from "../../../../public/image.png";
-import { FaTachometerAlt } from "react-icons/fa";
+import logo from "../../../../public/image.png";
 import { MdDashboardCustomize } from "react-icons/md";
 import Link from "next/link";
+import Links from "../links/page";
 
 export default async function Navbar() {
-  const session = await getServerSession(authOption);
-
   return (
     <div className="navbar fixed z-50 top-0 bg-gray-100 shadow-sm">
       {/* Left Side */}
@@ -41,7 +36,7 @@ export default async function Navbar() {
         </div>
         <div>
           <Image
-            src={image}
+            src={logo}
             alt="Logo"
             width={60}
             height={20}
@@ -59,42 +54,37 @@ export default async function Navbar() {
 
       {/* Right Side */}
       <div className="navbar-end">
-        {session && (
-          <div className="dropdown dropdown-end">
-            <div
-              tabIndex={0}
-              role="button"
-              className="btn btn-ghost btn-circle avatar"
-            >
-              <div className="w-12 rounded-full ring-2 ring-offset-2 ring-primary">
-                <Image
-                  src={
-                    session.user?.image || "https://i.ibb.co/QFCKhZX1/dog.jpg"
-                  }
-                  width={40}
-                  height={40}
-                  alt="User Avatar"
-                  className="rounded-full"
-                />
-              </div>
+        <div className="dropdown dropdown-end">
+          <div
+            tabIndex={0}
+            role="button"
+            className="btn btn-ghost btn-circle avatar"
+          >
+            <div className="w-12 rounded-full ring-2 ring-offset-2 ring-primary">
+              <Image
+                src="https://i.ibb.co/QFCKhZX1/dog.jpg"
+                width={40}
+                height={40}
+                alt="User Avatar"
+                className="rounded-full"
+              />
             </div>
-            <ul
-              tabIndex={0}
-              className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
-            >
-              <li className="px-2 py-1 rounded-md cursor-pointer  ">
-                
-                <Link
-                  href="/dashboard/add-product"
-                  className="font-semibold flex gap-1 text-lg text-gray-700"
-                >
-                  <MdDashboardCustomize className="text-indigo-600" />
-                  Dashboard
-                </Link>
-              </li>
-            </ul>
           </div>
-        )}
+          <ul
+            tabIndex={0}
+            className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
+          >
+            <li className="px-2 py-1 rounded-md cursor-pointer  ">
+              <Link
+                href="/dashboard/add-product"
+                className="font-semibold flex gap-1 text-lg text-gray-700"
+              >
+      
+                <MdDashboardCustomize /> Dashboard
+              </Link>
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
   );

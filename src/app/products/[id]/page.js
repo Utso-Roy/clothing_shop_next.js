@@ -2,8 +2,7 @@ import dbConnect from "@/lib/dbConnect";
 import { ObjectId } from "mongodb";
 import Image from "next/image";
 import Link from "next/link";
-import { AiOutlineArrowLeft } from "react-icons/ai"; // React Icons import
-
+import { AiOutlineArrowLeft } from "react-icons/ai"; 
 export default async function ProductDetails({ params }) {
   const { id } = params;
 
@@ -15,7 +14,7 @@ export default async function ProductDetails({ params }) {
   }
 
   return (
-    <div className="max-w-3xl mx-auto p-6">
+    <div className="max-w-3xl my-20 mx-auto p-6">
       {/* Back Button */}
       <div className="mb-4">
         <Link

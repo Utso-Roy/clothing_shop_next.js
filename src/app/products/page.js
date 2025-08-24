@@ -2,7 +2,11 @@ import dbConnect from "@/lib/dbConnect";
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { getServerSession } from "next-auth";
+import { authOptions } from "../api/auth/[...nextauth]/route";
 export default async function Products() {
+  const session = await getServerSession(authOptions);
+
   const collection = await dbConnect("ShopData");
   const data = await collection.find({}).toArray();
 
@@ -14,17 +18,16 @@ export default async function Products() {
           className="bg-white shadow-lg rounded-2xl overflow-hidden hover:shadow-2xl transition-all duration-300"
         >
           {/* Product Image */}
-       {/* Product Image */}
-<div className="relative w-full h-48 md:h-56 lg:h-64">
-  <Image
-    src={item.images}
-    alt={item.name}
-    fill 
-    className="object-cover rounded-t-2xl"
-    sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
-  />
-</div>
-
+          {/* Product Image */}
+          <div className="relative w-full h-48 md:h-56 lg:h-64">
+            <Image
+              src={item.images}
+              alt={item.name}
+              fill
+              className="object-cover rounded-t-2xl"
+              sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+            />
+          </div>
 
           {/* Product Info */}
           <div className="p-4">
@@ -62,10 +65,11 @@ export default async function Products() {
 
             {/* Details Button */}
             <div className="mt-4">
-              <Link  className="w-full bg-blue-400 cursor-pointer text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition" href={`/products/${item._id}`}>
-             
-                  View Details
-                
+              <Link
+                className="w-full bg-blue-400 cursor-pointer text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition"
+                href={`/products/${item._id}`}
+              >
+                View Details
               </Link>
             </div>
           </div>
